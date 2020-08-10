@@ -60,7 +60,7 @@ R script for analysis of output files from analyse_untig.py, generating unitig f
 
 To use, specify input directory at '#input directory'.
 
-### check_ORF
+### check_ORF.py
 
 #### check_ORF_in_ref()
 
