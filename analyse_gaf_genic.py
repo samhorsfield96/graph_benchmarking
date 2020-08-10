@@ -16,7 +16,6 @@ def analyse_read_coverage(gaf, blast, reads, outfile):
             gene_dict[line_list[0]] = {}
             gene_dict[line_list[0]]["reads"] = {}
             gene_dict[line_list[0]]["range"] = (gene_start, gene_end)
-            #gene_dict[line_list[0]]["read_coverage"] = set()
 
     print("Generating total read dictionary from read list")
 
