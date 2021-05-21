@@ -10,10 +10,15 @@ def analyse_nodes(infile, outpref):
     import numpy as np
     from statistics import mean
 
+    stop_codons = ["TAA", "TGA", "TAG", "TTA", "TCA", "CTA"]
+    start_codons = ["ATG", "GTG", "TTG", "CAT", "CAC", "CAA"]
+
     node_dict = {}
     link_dict = {}
     number_nodes = 0
     number_edges = 0
+    number_stops = 0
+    number_starts = 0
 
     with open(infile, "r") as f:
         for line in f:
@@ -25,6 +30,10 @@ def analyse_nodes(infile, outpref):
                 number_nodes += 1
                 node_id = split_line[1]
                 node_len = len(split_line[2])
+
+                # determine number of stop codons
+                number_stops = number_stops + sum([split_line[2].count(x) for x in stop_codons])
+                number_starts = number_starts + sum([split_line[2].count(x) for x in start_codons])
 
                 if node_id not in node_dict:
                     node_dict[node_id] = {}
@@ -112,7 +121,9 @@ def analyse_nodes(infile, outpref):
     #output summary file
     summmary_file = outpref + "_summary.txt"
     with open(summmary_file, "w") as s:
-        s.write("total_nodes" + "\t" + str(number_nodes) + "\n" + "total_directed_edges" + "\t" + str(number_edges) + "\n" + "total_bases" + "\t" + str(total_bases) + "\n")
+        s.write("total_nodes" + "\t" + str(number_nodes) + "\n" + "total_directed_edges" + "\t" + str(number_edges) + "\n" +
+        "total_bases" + "\t" + str(total_bases) + "\n" + "total_stop_codons" + "\t" + str(number_stops) +
+        "\n" + "total_start_codons" + "\t" + str(number_starts) + "\n")
         for key, item in results_dict.items():
             for result, stat in item.items():
                 s.write(str(key) + "_" + str(result) + "\t" + str(stat) + "\n")
